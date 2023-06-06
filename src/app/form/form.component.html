@@ -1,0 +1,728 @@
+<h3 class="text-center">Evaluación de los cuatro factores</h3>
+
+<!-- Inicio Formulario Datos Generales -->
+<table class="table caption-top center text-center table-responsive mt-5">
+    <tr>
+        <th style="background-color: #000F9F; color: white;">DATOS GENERALES</th>
+    </tr>
+</table>
+<hr>
+<form>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="aactual" class="form-label"><strong>Año Actual</strong></label>
+            <input type="number" name="aactual" [(ngModel)]="currentYear" class="form-control" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="etapa" class="form-label"><strong>Etapa de la convocatoria</strong></label>
+            <input type="text" name="etapa" [(ngModel)]="etapa" class="form-control">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="nombrepersonal" class="form-label"><strong>Nombre del personal</strong></label>
+            <input type="text" name="nombrepersonal" [(ngModel)]="nombrepersonal" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label for="centrotrabajo" class="form-label"><strong>Nombre del centro de trabajo</strong></label>
+            <select name="centrotrabajo" [(ngModel)]="centrotrabajo" class="form-select" (change)="findKey()">
+                <option *ngFor="let centro of centros">{{ centro.centro_de_trabajo }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="seccionsindical" class="form-label"><strong>Seccion sindical</strong></label>
+            <select name="seccionsindical" [(ngModel)]="seccionsindical" class="form-select">
+                <option value="45">45</option>
+                <option value="13">13</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="nombreevaluador" class="form-label"><strong>Nombre del evaluador</strong></label>
+            <input type="text" name="nombreevaluador" [(ngModel)]="evaluador" class="form-control">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="rfc" class="form-label"><strong>RFC con homoclave</strong></label>
+            <input type="text" name="rfc" [(ngModel)]="rfc" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label for="periodo" class="form-label"><strong>Periodo Evaluado</strong></label>
+            <input type="text" name="periodo" [(ngModel)]="periodo" class="form-control" readonly>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="municipio" class="form-label"><strong>Municipio</strong></label>
+            <input type="text" name="municipio" [(ngModel)]="municipio" value={{municipio}} class="form-control"
+                readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="currentDate" class="form-label"><strong>Fecha</strong></label>
+            <input type="text" name="currentDtae" [(ngModel)]="fechaFormateada" class="form-control" readonly>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="funcion" class="form-label"><strong>Funcion</strong></label>
+        <textarea name="funcion" [(ngModel)]="funcion" class="form-control"></textarea>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="clave" class="form-label"><strong>Clave de centro de trabajo</strong></label>
+            <input type="text" name="clave" [(ngModel)]="clavecentro" class="form-control" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="telefono" class="form-label"><strong>Telefono de su centro de trabajo</strong></label>
+            <input type="text" name="telefono" [(ngModel)]="telefonocentro" class="form-control">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="dias" class="form-label"><strong>Dias Laborados</strong></label>
+            <input type="number" name="dias" [(ngModel)]="dias" class="form-control">
+        </div>
+    </div>
+
+</form>
+<!-- Final Formulario Datos Generales -->
+
+<!-- Inicio Accordion Escala de Medicion -->
+<table class="table caption-top center text-center table-responsive mt-5">
+    <tr>
+        <th style="background-color: #000F9F; color: white;">ESCALA DE MEDICION</th>
+    </tr>
+</table>
+<div class="accordion accordion-flush border" id="accordionFlushExample">
+    <h2 class="accordion-header" id="flush-headingOne">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+            Ver tabla de la escala de medición
+        </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+        data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+
+            <table class="table caption-top center text-center table-responsive mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-1">Parámetros de Medición</th>
+                        <th scope="col" class="col-2">Interpretación</th>
+                        <th scope="col" class="col-1">Evaluación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Sobresaliente:</th>
+                        <td>El colaborador <strong> supera significativamente </strong> los criterios de desempeño
+                            de las
+                            acciones descritas.</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Muy Bueno:</th>
+                        <td>El colaborador <strong> cumple satisfactoriamente </strong> los criterios de desempeño
+                            de las
+                            acciones descritas.</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Bueno:</th>
+                        <td>El colaborador <strong> aplica los criterios de desempeño </strong> de las acciones
+                            descritas
+                            <strong> con apoyo. </strong>
+                        </td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Insuficiente:</th>
+                        <td>El colaborador <strong> no demuestra los criterios suficientes </strong> en el desempeño
+                            de las
+                            acciones descritas.</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Deficiente:</th>
+                        <td>El colaborador <strong> no satisface el nivel inferior de los criterios </strong> del
+                            desempeño de
+                            las acciones descritas.</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">No Aceptable:</th>
+                        <td>El colaborador se <strong> mantiene en un nivel significativamente inferior </strong> de
+                            los
+                            criterios del desempeño de las acciones descritas.</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<!-- Final Accordion Escala de Medicion -->
+
+<!-- Inicio Tabla Desempeño Laboral -->
+<div class="mb-3">
+    <table class="table caption-top center text-center table-responsive mt-5">
+        <tr>
+            <th style="background-color: #000F9F; color: white;">DESEMPEÑO LABORAL</th>
+        </tr>
+    </table>
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th scope="col" class="col-3">Descripción de la competencia</th>
+                <th scope="col" class="col-1">Compentencia a calificar</th>
+                <th scope="col" class="col-2">Puntaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td scope="row">Demuestra calidad en los resultados de las funciones o trabajos que le
+                    son asignados y son
+                    realizados en tiempo.</td>
+                <td>Logro de Resultados </td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[0]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Logra identificar, preveer y solucionar adecuadamente los problemas y/o
+                    efectuar mejoras en la forma de desarrollar su trabajo, sin necesidad
+                    de
+                    ayuda o supervisión constante.</td>
+                <td>Iniciativa</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[1]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Logra establecer y desarrollar relaciones armónicas, eficaces y
+                    constructivas
+                    con los compañeros, superiores, colaboradores y usuarios.</td>
+                <td>Relaciones Interpersonales</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[2]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Logra y estimula a los demás a responder adecuada y oportunamente a las
+                    necesidades de las personas con quien interactúa, sean usuarios
+                    o
+                    proveedores del centro de trabajo.</td>
+                <td>Actitud de Servicio</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[3]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Participa activamente en su equipo de trabajo o con otros, para mejor
+                    logro de los resultados de la institución.</td>
+                <td>Trabajo en equipo</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[4]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Asume la responsabilidad para el logro de los resultados
+                    del puesto que desempeña.</td>
+                <td>Disponibilidad</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[5]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Utiliza eficientemente los recursos disponibles (técnicos, materiales,
+                    económicos y humanos), y coopera con los criterios de racionalidad y austeridad de
+                    Gobierno.</td>
+                <td>Uso de recursos</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[6]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Logra utilizar eficazmente el tiempo y respeta el de las personas con
+                    quienes interactúa, programando y controlando adecuadamente sus propias actividades.
+                </td>
+                <td>Administración del tiempo</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[7]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Se esfuerza y muestra disposición por aumentar los conocimientos que se
+                    requieren en el puesto que ocupa y aplica lo que aprende en la capacitación, para
+                    eficientar los resultados en su trabajo.</td>
+                <td>Conocimiento del trabajo</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[8]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Mantiene un intercambio eficiente, ordenado y sistemático de información
+                    con quienes interactúa, para facilitar el logro de los resultados comunes y
+                    discreción en el manejo de información con que trabaja.</td>
+                <td>Comunicación</td>
+                <td>
+                    <select class="form-select text-center" [(ngModel)]="puntajeComp[9]"
+                        (change)="calcularSumaPuntajes()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+            </tr>
+            <tr style="background-color: #B9C8E6;" style="color: red;">
+                <td scope="row"><strong>El puntaje maximo obtenido en el desempeño laboral es de 60
+                        puntos</strong></td>
+                <td scope="row"><strong>Total</strong></td>
+                <td><strong>{{sumaPuntaje}}</strong></td>
+            </tr>
+    </table>
+</div>
+
+<div class="mb-3">
+    <table class="table table-bordered text-center">
+        <tbody>
+            <tr>
+                <th scope="col" class="col-3" style="font-weight: normal;"><strong>Factor de Desempeño=
+                    </strong>Puntaje obtenido en el desempeño laboral entre /
+                    los 365 dias del año</th>
+                <th scope="col" class="col-1" style="font-weight: normal; color: red;"><strong>Factor de
+                        Desempeño=</strong></th>
+                <th scope="col" class="col-2" style="font-weight: normal; color: red;"><strong>{{desempeno}}</strong>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="col-3" style="font-weight: normal;">Los dias laborados son los 365 dias del
+                    año y no se computaran las
+                    licencias sin goce de sueldo por asuntos particulares
+                    o por comision sindical y en caso de que el personal se desempeño en una categoria diferente a
+                    la del personal de apoyo
+                    y asistencia a la educación básica sindicalizado.
+                </th>
+                <th scope="col" class="col-1" style="font-weight: normal; color: red;"><strong>Número de dias laborados
+                        en la plaza PAAE
+                        de enero enero a diciembre
+                        2022=</strong></th>
+                <th scope="col" class="col-2" style="font-weight: normal; color: red;"><strong>{{dias}}</strong></th>
+            </tr>
+            <tr>
+                <th scope="col" class="col-3" style="font-weight: normal;"><strong>Total de puntaje de evaluacion al
+                        desempeño laboral= </strong>(Factor de
+                    desempeño) X (los dias laborados sólo de la plaza administratriva del periodo evaluado)</th>
+                <th scope="col" class="col-1" style="font-weight: normal; color: red;"><strong>Factor de
+                        Desempeño=</strong></th>
+                <th scope="col" class="col-2" style="font-weight: normal; color: red;">
+                    <strong>{{multiPuntajeyDias}}</strong></th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Final Tabla Desempeño Laboral -->
+
+<!-- Inicio Accordion Información Adicional  -->
+<table class="table caption-top center text-center table-responsive mt-5">
+    <tr>
+        <th style="background-color: #000F9F; color: white;">INFORMACION ADICIONAL</th>
+    </tr>
+</table>
+
+<div class="accordion accordion-flush border" id="accordionFlushExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                ¿Comó se evalua?
+            </button>
+        </h2>
+        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+            data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+
+                <table class="table caption-top center text-center table-responsive mt-5">
+                    <thead>
+                        <tr>
+                            <th colspan="5" style="background-color: #000F9F; color: white;">ANTIGÜEDAD EN EL
+                                SERVICIO </th>
+                        </tr>
+                        <tr>
+                            <th scope="col" class="col-2">Años</th>
+                            <th scope="col" class="col-1">Ponderación</th>
+                            <th scope="col" class="col-1">Años</th>
+                            <th scope="col" class="col-1">Ponderación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><strong>1</strong></th>
+                            <td> 0.13 </td>
+                            <td> <strong>15</strong> </td>
+                            <td> 3.99 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>2</strong></th>
+                            <td> 0.26 </td>
+                            <td> <strong>2</strong> </td>
+                            <td> 7.39 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>3</strong></th>
+                            <td> 0.39 </td>
+                            <td> <strong>16</strong> </td>
+                            <td> 4.79 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>4</strong></th>
+                            <td> 0.59 </td>
+                            <td> <strong>17</strong> </td>
+                            <td> 5.19 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>5</strong></th>
+                            <td> 0.79 </td>
+                            <td> <strong>18</strong> </td>
+                            <td> 5.59 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>6</strong></th>
+                            <td> 0.99 </td>
+                            <td> <strong>19</strong></td>
+                            <td> 5.99 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>7</strong></th>
+                            <td> 1.19 </td>
+                            <td> <strong>21</strong></td>
+                            <td> 6.49 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>8</strong></th>
+                            <td> 1.39 </td>
+                            <td> <strong>22</strong></td>
+                            <td> 6.99 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>9</strong></th>
+                            <td> 1.59 </td>
+                            <td> <strong>23</strong></td>
+                            <td> 1.99 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>10</strong></th>
+                            <td> 1.99 </td>
+                            <td> <strong>24</strong></td>
+                            <td> 7.99 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>11</strong></th>
+                            <td> 2.39 </td>
+                            <td> <strong>25</strong></td>
+                            <td> 8.49 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>12</strong></th>
+                            <td> 2.79 </td>
+                            <td> <strong>26</strong></td>
+                            <td> 8.99 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>13</strong></th>
+                            <td> 3.19 </td>
+                            <td> <strong>27</strong></td>
+                            <td> 9.49 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>14</strong></th>
+                            <td> 3.59 </td>
+                            <td> <strong>28</strong></td>
+                            <td> 10 </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br>
+
+                <table class="table caption-top center text-center table-responsive mt-5">
+                    <thead>
+                        <tr>
+                            <th colspan="8" style="background-color: #7b7e83; color: white;">PREPARACIÓN ACADÉMICA
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="col" colspan="1" style="background-color: #7b7e83;"></th>
+                            <th colspan="1"></th>
+                            <th scope="col" colspan="6">Años/ Puntaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" style="background-color: #7b7e83;">Nivel</th>
+                            <td style="background-color: #1E71F5;"> <strong> 1 </strong> </td>
+                            <td style="background-color: #1E71F5;"> <strong> 2 </strong> </td>
+                            <td style="background-color: #1E71F5;"> <strong> 3 </strong> </td>
+                            <td style="background-color: #1E71F5;"> <strong> 4 </strong> </td>
+                            <td style="background-color: #1E71F5;"> <strong> 5 </strong> </td>
+                            <td style="background-color: #1E71F5;"> <strong> 6 </strong> </td>
+                            <td style="background-color: #1E71F5;"> <strong> Máximo puntaje a alcanzar </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Primaria</th>
+                            <td> 0.47 </td>
+                            <td> 0.94 </td>
+                            <td> 1.40 </td>
+                            <td> 1.87 </td>
+                            <td> 1.90 </td>
+                            <td> 2.00 </td>
+                            <td style="background-color: #5e5e5f; "> <strong> 2.00 </strong> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">secundaria</th>
+                            <td> 1.40 </td>
+                            <td> 2.80 </td>
+                            <td> 3.50 </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td style="background-color: #5e5e5f;"> <strong> 3.50 </strong> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Carrera Comercial <br> <br> Carrera Técnica <br> <br> Bachillerato </th>
+                            <td> <br> <br> 1.00 </td>
+                            <td> <br> <br> 1.50 </td>
+                            <td> <br> <br> 4.00 </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td style="background-color: #5e5e5f;"> <strong> <br> <br> 3.50 </strong> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>Licenciatura</strong></th>
+                            <td> 0.13 </td>
+                            <td> 0.25 </td>
+                            <td> 0.375 </td>
+                            <td> 0.5 </td>
+                            <td> </td>
+                            <td> </td>
+                            <td style="background-color: #5e5e5f;"> <strong> 0.50 </strong> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="1"><strong>TOTAL</strong></th>
+                            <td colspan="6"> <strong> Puntaje global máximo a alcanzar </strong> </td>
+                            <td style="background-color: #5e5e5f;" colspan="1"> <strong>10.00</strong></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+
+                <br>
+
+                <table class="table caption-top center text-center table-responsive mt-5">
+                    <thead>
+                        <tr>
+                            <th colspan="4" style="background-color: #7b7e83; color: white;">PROGRAMAS DE DESARROLLO
+                                (CAPACITACIÓN)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="1"> Acreditado </td>
+                            <td colspan="3"> <strong> 20 Puntos </strong> </td>
+                        </tr>
+
+                        <tr>
+                            <td> No presentó constancia de capacitación </td>
+                            <td> <strong> 0 Puntos </strong> </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!-- Final Accordion Información Adicional  -->
+
+<!-- Inicio Formulario Informacion Adicional -->
+<form id="form">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="antiguedad" class="form-label"><strong>Años de antigüedad (1-28)</strong></label>
+            <select name="antiguedad" [(ngModel)]="antiguedad" class="form-select">
+                <option value="0.13">1</option>
+                <option value="0.26">2</option>
+                <option value="0.39">3</option>
+                <option value="0.59">4</option>
+                <option value="0.79">5</option>
+                <option value="0.99">6</option>
+                <option value="1.19">7</option>
+                <option value="1.39">8</option>
+                <option value="1.59">9</option>
+                <option value="1.99">10</option>
+                <option value="2.39">11</option>
+                <option value="2.79">12</option>
+                <option value="3.19">13</option>
+                <option value="3.59">14</option>
+                <option value="3.99">15</option>
+                <option value="4.39">16</option>
+                <option value="4.79">17</option>
+                <option value="5.19">18</option>
+                <option value="5.59">19</option>
+                <option value="5.99">20</option>
+                <option value="6.49">21</option>
+                <option value="6.99">22</option>
+                <option value="7.49">23</option>
+                <option value="7.99">24</option>
+                <option value="8.49">25</option>
+                <option value="8.99">26</option>
+                <option value="9.49">27</option>
+                <option value="10">28</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="academico" class="form-label"><strong>Grado Educativo</strong></label>
+            <select name="academico" [(ngModel)]="academico" class="form-select">
+                <option value="0.47">Primero de primaria</option>
+                <option value="0.94">Segundo de primaria</option>
+                <option value="1.40">Tercero de primaria</option>
+                <option value="1.87">Cuarto de primaria</option>
+                <option value="1.90">Quinto de primaria</option>
+                <option value="2.00">Sexto de primaria</option>
+                <option value="3.40">Primero de secundaria</option>
+                <option value="4.80">Segundo de secundaria</option>
+                <option value="5.50">Tercero de secundaria</option>
+                <option value="6.50">Primer año de Carrera Comercial, Carrera Tecnica ò Bachillerato</option>
+                <option value="7.00">Segundo año de Carrera Comercial, Carrera Tecnica ò Bachillerato</option>
+                <option value="9.50">Tercer año de Carrera Comercial, Carrera Tecnica ò Bachillerato</option>
+                <option value="9.63">Primer año de Licenciatura</option>
+                <option value="9.75">Segundo año de Licenciatura</option>
+                <option value="9.875">Tercer año de Licenciatura</option>
+                <option value="10">Cuarto año de Licenciatura</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="cursos" class="form-label"><strong>Cursos</strong></label>
+        <select name="cursos" [(ngModel)]="cursos" class="form-select" (change)="sumarTodo()">
+            <option value="0">0</option>
+            <option value="20">1</option>
+            <option value="20">2</option>
+            <option value="20">3</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="observaciones" class="form-label"><strong>Observaciones</strong></label>
+        <textarea name="observaciones" [(ngModel)]="observaciones" class="form-control"></textarea>
+    </div>
+</form>
+<!-- Final Formulario Informacion Adicional -->
+
+<button (click)="generatePDF(); enviarDatos();" class="btn btn-primary mb-4">Generar PDF</button>
+
+<table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Puntaje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let registro of registros">
+        <td>{{ registro.nombre }}</td>
+        <td>{{ registro.puntaje }}</td>
+      </tr>
+    </tbody>
+  </table>
